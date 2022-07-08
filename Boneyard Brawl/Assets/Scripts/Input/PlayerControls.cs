@@ -24,7 +24,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""DefaultActions"",
+            ""name"": ""PlayerActions"",
             ""id"": ""c82975f6-8589-4652-ae1e-2a0f77a71d1f"",
             ""actions"": [
                 {
@@ -186,6 +186,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""8e51076a-347d-4477-bf98-d02e01e68e28"",
                     ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ceb4a504-88ac-4d30-9570-9b13219e7b12"",
+                    ""path"": ""<Keyboard>/delete"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -407,14 +418,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // DefaultActions
-        m_DefaultActions = asset.FindActionMap("DefaultActions", throwIfNotFound: true);
-        m_DefaultActions_Move = m_DefaultActions.FindAction("Move", throwIfNotFound: true);
-        m_DefaultActions_Attack = m_DefaultActions.FindAction("Attack", throwIfNotFound: true);
-        m_DefaultActions_Dodge = m_DefaultActions.FindAction("Dodge", throwIfNotFound: true);
-        m_DefaultActions_Throw = m_DefaultActions.FindAction("Throw", throwIfNotFound: true);
-        m_DefaultActions_Interact = m_DefaultActions.FindAction("Interact", throwIfNotFound: true);
-        m_DefaultActions_Pause = m_DefaultActions.FindAction("Pause", throwIfNotFound: true);
+        // PlayerActions
+        m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
+        m_PlayerActions_Move = m_PlayerActions.FindAction("Move", throwIfNotFound: true);
+        m_PlayerActions_Attack = m_PlayerActions.FindAction("Attack", throwIfNotFound: true);
+        m_PlayerActions_Dodge = m_PlayerActions.FindAction("Dodge", throwIfNotFound: true);
+        m_PlayerActions_Throw = m_PlayerActions.FindAction("Throw", throwIfNotFound: true);
+        m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
+        m_PlayerActions_Pause = m_PlayerActions.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -471,54 +482,54 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // DefaultActions
-    private readonly InputActionMap m_DefaultActions;
-    private IDefaultActionsActions m_DefaultActionsActionsCallbackInterface;
-    private readonly InputAction m_DefaultActions_Move;
-    private readonly InputAction m_DefaultActions_Attack;
-    private readonly InputAction m_DefaultActions_Dodge;
-    private readonly InputAction m_DefaultActions_Throw;
-    private readonly InputAction m_DefaultActions_Interact;
-    private readonly InputAction m_DefaultActions_Pause;
-    public struct DefaultActionsActions
+    // PlayerActions
+    private readonly InputActionMap m_PlayerActions;
+    private IPlayerActionsActions m_PlayerActionsActionsCallbackInterface;
+    private readonly InputAction m_PlayerActions_Move;
+    private readonly InputAction m_PlayerActions_Attack;
+    private readonly InputAction m_PlayerActions_Dodge;
+    private readonly InputAction m_PlayerActions_Throw;
+    private readonly InputAction m_PlayerActions_Interact;
+    private readonly InputAction m_PlayerActions_Pause;
+    public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
-        public DefaultActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_DefaultActions_Move;
-        public InputAction @Attack => m_Wrapper.m_DefaultActions_Attack;
-        public InputAction @Dodge => m_Wrapper.m_DefaultActions_Dodge;
-        public InputAction @Throw => m_Wrapper.m_DefaultActions_Throw;
-        public InputAction @Interact => m_Wrapper.m_DefaultActions_Interact;
-        public InputAction @Pause => m_Wrapper.m_DefaultActions_Pause;
-        public InputActionMap Get() { return m_Wrapper.m_DefaultActions; }
+        public PlayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_PlayerActions_Move;
+        public InputAction @Attack => m_Wrapper.m_PlayerActions_Attack;
+        public InputAction @Dodge => m_Wrapper.m_PlayerActions_Dodge;
+        public InputAction @Throw => m_Wrapper.m_PlayerActions_Throw;
+        public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
+        public InputAction @Pause => m_Wrapper.m_PlayerActions_Pause;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(DefaultActionsActions set) { return set.Get(); }
-        public void SetCallbacks(IDefaultActionsActions instance)
+        public static implicit operator InputActionMap(PlayerActionsActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerActionsActions instance)
         {
-            if (m_Wrapper.m_DefaultActionsActionsCallbackInterface != null)
+            if (m_Wrapper.m_PlayerActionsActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnMove;
-                @Attack.started -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnAttack;
-                @Attack.performed -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnAttack;
-                @Attack.canceled -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnAttack;
-                @Dodge.started -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnDodge;
-                @Dodge.performed -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnDodge;
-                @Dodge.canceled -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnDodge;
-                @Throw.started -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnThrow;
-                @Throw.performed -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnThrow;
-                @Throw.canceled -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnThrow;
-                @Interact.started -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnInteract;
-                @Pause.started -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnPause;
-                @Pause.performed -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnPause;
-                @Pause.canceled -= m_Wrapper.m_DefaultActionsActionsCallbackInterface.OnPause;
+                @Move.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnMove;
+                @Attack.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnAttack;
+                @Dodge.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnDodge;
+                @Dodge.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnDodge;
+                @Dodge.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnDodge;
+                @Throw.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnThrow;
+                @Throw.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnThrow;
+                @Throw.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnThrow;
+                @Interact.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
+                @Pause.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPause;
             }
-            m_Wrapper.m_DefaultActionsActionsCallbackInterface = instance;
+            m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Move.started += instance.OnMove;
@@ -542,8 +553,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             }
         }
     }
-    public DefaultActionsActions @DefaultActions => new DefaultActionsActions(this);
-    public interface IDefaultActionsActions
+    public PlayerActionsActions @PlayerActions => new PlayerActionsActions(this);
+    public interface IPlayerActionsActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);

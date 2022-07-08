@@ -2,7 +2,7 @@
     "name": "PlayerControls",
     "maps": [
         {
-            "name": "DefaultActions",
+            "name": "PlayerActions",
             "id": "c82975f6-8589-4652-ae1e-2a0f77a71d1f",
             "actions": [
                 {
@@ -164,6 +164,17 @@
                     "name": "",
                     "id": "8e51076a-347d-4477-bf98-d02e01e68e28",
                     "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ceb4a504-88ac-4d30-9570-9b13219e7b12",
+                    "path": "<Keyboard>/delete",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
