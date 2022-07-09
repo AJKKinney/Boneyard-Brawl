@@ -14,6 +14,7 @@ public class PlayerCharacterSpawner : MonoBehaviour
        {
             var playerCharacter = Instantiate(playerCharacterPrefab);
             playerCharacter.GetComponent<PlayerCharacterController>().playerInput = PlayerManager.instance.players[i].GetComponent<PlayerInputProvider>();
+            PlayerManager.instance.players[i].GetComponent<PlayerInputProvider>().playerController = playerCharacter.GetComponent<PlayerCharacterController>();
        }
     }
 

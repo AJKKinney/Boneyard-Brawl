@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     //Registers a player to the player manager
     public void RegisterPlayer(GameObject player)
     {
+        JoinManager.instance.PlayerJoin(players.Count);
         players.Add(player);
     }
 

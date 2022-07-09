@@ -81,7 +81,19 @@ MonoBehaviour:
     m_ActionId: c16eb0a2-b575-47f4-840a-9996337c4741
     m_ActionName: PlayerActions/Attack[/DualShock4GamepadHID/rightShoulder,/XInputControllerWindows/rightShoulder,/DualShock4GamepadHID/buttonWest,/XInputControllerWindows/buttonWest,/Keyboard/j,/Keyboard/numpad1]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4375982179353652332}
+        m_TargetAssemblyTypeName: PlayerInputProvider, Assembly-CSharp
+        m_MethodName: OnDodge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 30d36796-c2f0-4235-8141-708b31a4301a
     m_ActionName: PlayerActions/Dodge[/DualShock4GamepadHID/rightShoulder,/XInputControllerWindows/rightShoulder,/DualShock4GamepadHID/buttonSouth,/XInputControllerWindows/buttonSouth,/Keyboard/space,/Keyboard/numpad2]
   - m_PersistentCalls:
@@ -138,3 +150,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveInput: {x: 0, y: 0}
+  playerController: {fileID: 0}
