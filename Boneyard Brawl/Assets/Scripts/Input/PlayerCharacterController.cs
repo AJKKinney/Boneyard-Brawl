@@ -10,6 +10,7 @@ public class PlayerCharacterController : MonoBehaviour
     [SerializeField] private float humanMoveSpeed = 2f;
     [SerializeField] private float acceleration = 6f;
     [SerializeField] private float deceleration = 12f;
+    [SerializeField] private PlayerForm currentForm = PlayerForm.Skeleton;
 
     [Header("Player GFX")]
     [SerializeField] private GameObject ghostGFX;
@@ -24,7 +25,9 @@ public class PlayerCharacterController : MonoBehaviour
     private CharacterController controller;
     private float currentSpeed;
     private Vector3 moveDirection;
-    [SerializeField] private PlayerForm currentForm = PlayerForm.Skeleton;
+    private bool isDodging = false;
+    private float dodgeTimer = 0f;
+    private readonly float dodgeLength = .15f;
 
     private void Awake()
     {
@@ -45,6 +48,12 @@ public class PlayerCharacterController : MonoBehaviour
 
             controller.Move(moveDirection * currentSpeed * Time.deltaTime);
         }
+        else if (isDodging == true)
+        {
+            CalculateDodge();
+
+            controller.Move(moveDirection * currentSpeed * Time.deltaTime);
+        }
         else
         {
             currentSpeed = 0f;
@@ -54,24 +63,13 @@ public class PlayerCharacterController : MonoBehaviour
     //calculate move direction and speed
     private void CalculateMove()
     {
-        float targetSpeed = 0;
+        float targetSpeed = 0f;
 
         if (playerInput.moveInput != Vector2.zero)
         {
             moveDirection = new Vector3(playerInput.moveInput.x, 0, playerInput.moveInput.y);
 
-            if (currentForm == PlayerForm.Ghost)
-            {
-                targetSpeed = ghostMoveSpeed;
-            }
-            else if (currentForm == PlayerForm.Skeleton)
-            {
-                targetSpeed = skeletonMoveSpeed;
-            }
-            else if (currentForm == PlayerForm.Human)
-            {
-                targetSpeed = humanMoveSpeed;
-            }
+            targetSpeed = CalculateFormSpeed();
         }
 
         if (currentSpeed <= targetSpeed)
@@ -86,10 +84,60 @@ public class PlayerCharacterController : MonoBehaviour
         transform.forward = moveDirection;
     }
 
-    //dodge
-    public void Dodge()
+    //initiate dodge
+    //takes in the buttons float value 0 = release, 1 = press
+    public void Dodge(float buttonValue)
     {
-        
+        if (isDodging == false && buttonValue == 1f)
+        {
+            movementLocked = true;
+            isDodging = true;
+            dodgeTimer = dodgeLength;
+        }
+    }
+
+    //calculate dodge direction and speed
+    private void CalculateDodge()
+    {
+        float targetSpeed = 0f;
+        float dodgeMultiplier = 7f;
+
+        dodgeTimer -= Time.deltaTime;
+        if (dodgeTimer <= 0)
+        {
+            movementLocked = false;
+            isDodging = false;
+        }
+
+        targetSpeed = CalculateFormSpeed() * dodgeMultiplier;
+
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
+
+        if (moveDirection == Vector3.zero)
+        {
+            transform.forward = moveDirection;
+        }
+    }
+
+    //calculate speed based on current form
+    private float CalculateFormSpeed()
+    {
+        float targetSpeed = 0;
+
+        if (currentForm == PlayerForm.Ghost)
+        {
+            targetSpeed = ghostMoveSpeed;
+        }
+        else if (currentForm == PlayerForm.Skeleton)
+        {
+            targetSpeed = skeletonMoveSpeed;
+        }
+        else if (currentForm == PlayerForm.Human)
+        {
+            targetSpeed = humanMoveSpeed;
+        }
+
+        return targetSpeed;
     }
 
     //changes player form negatively

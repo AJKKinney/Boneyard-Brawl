@@ -12,5 +12,5 @@ public class PlayerInputProvider : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx) => moveInput = ctx.ReadValue<Vector2>();
 
-    public void OnDodge(InputAction.CallbackContext ctx) => playerController.Dodge();
+    public void OnDodge(InputAction.CallbackContext ctx) => playerController.Dodge(ctx.ReadValue<float>());
 }
