@@ -78,31 +78,30 @@ public class PlayerCharacterController : MonoBehaviour
             }
         }
 
-        if (playerInput.moveInput != Vector2.zero)
+        //decelerate faster if dodging
+        if (isDodging == false)
         {
-            moveDirection = new Vector3(playerInput.moveInput.x, 0, playerInput.moveInput.y);
-
-            targetSpeed = CalculateFormSpeed();
-        }
-
-        if (currentSpeed <= targetSpeed)
-        {
-            currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
-        }
-        else if (currentSpeed > targetSpeed)
-        {
-            //decelerate faster if dodging
-            if (isDodging == true)
+            if (playerInput.moveInput != Vector2.zero)
             {
-                float dodgeDecel = 15f;
-                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, dodgeDecel * Time.deltaTime);
+                moveDirection = new Vector3(playerInput.moveInput.x, 0, playerInput.moveInput.y);
+
+                targetSpeed = CalculateFormSpeed();
             }
-            else
+
+            if (currentSpeed <= targetSpeed)
             {
-                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, deceleration * Time.deltaTime);
+                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
+            }
+            else if (currentSpeed > targetSpeed)
+            {
+               currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, deceleration * Time.deltaTime);
             }
         }
-
+        else
+        {
+            float dodgeDecel = 15f;
+            currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, dodgeDecel * Time.deltaTime);
+        }
         transform.forward = moveDirection;
     }
 
