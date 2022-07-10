@@ -27,7 +27,9 @@ public class PlayerCharacterController : MonoBehaviour
     private Vector3 moveDirection;
     private bool isDodging = false;
     private float dodgeTimer = 0f;
-    private readonly float dodgeLength = .15f;
+    private readonly float dodgeLength = .05f;
+    private float dodgeCooldown = 0f;
+    private readonly float dodgeCooldownLength = .3f;
 
     private void Awake()
     {
@@ -65,6 +67,17 @@ public class PlayerCharacterController : MonoBehaviour
     {
         float targetSpeed = 0f;
 
+        //resume dodge cooldown and reset ability to dodge
+        if (dodgeCooldown > 0f)
+        {
+            dodgeCooldown -= Time.deltaTime;
+
+            if (dodgeCooldown <= 0f)
+            {
+                isDodging = false;
+            }
+        }
+
         if (playerInput.moveInput != Vector2.zero)
         {
             moveDirection = new Vector3(playerInput.moveInput.x, 0, playerInput.moveInput.y);
@@ -78,7 +91,16 @@ public class PlayerCharacterController : MonoBehaviour
         }
         else if (currentSpeed > targetSpeed)
         {
-            currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, deceleration * Time.deltaTime);
+            //decelerate faster if dodging
+            if (isDodging == true)
+            {
+                float dodgeDecel = 15f;
+                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, dodgeDecel * Time.deltaTime);
+            }
+            else
+            {
+                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, deceleration * Time.deltaTime);
+            }
         }
 
         transform.forward = moveDirection;
@@ -100,16 +122,36 @@ public class PlayerCharacterController : MonoBehaviour
     private void CalculateDodge()
     {
         float targetSpeed = 0f;
-        float dodgeMultiplier = 7f;
+        float dodgeMultiplier = 20f;
 
         dodgeTimer -= Time.deltaTime;
-        if (dodgeTimer <= 0)
+        if (dodgeCooldown > 0f)
         {
-            movementLocked = false;
-            isDodging = false;
+            dodgeCooldown -= Time.deltaTime;
+            
+            //resume movement capabilities at cooldown half point
+            if (dodgeCooldown <= dodgeCooldownLength/2)
+            {
+                movementLocked = false;
+            }
         }
 
-        targetSpeed = CalculateFormSpeed() * dodgeMultiplier;
+        //once dodge timer expires, set cooldown
+        if (dodgeTimer <= 0f && dodgeCooldown <= 0f)
+        {
+            //movementLocked = false;
+            //isDodging = false;
+            dodgeCooldown = dodgeCooldownLength;
+        }
+
+        //set dodge speed, return to normal speed if cooldown is active
+        if (dodgeCooldown <= 0f)
+        {
+            targetSpeed = CalculateFormSpeed() * dodgeMultiplier;
+        } else
+        {
+            targetSpeed = CalculateFormSpeed();
+        }
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
 
