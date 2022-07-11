@@ -12,10 +12,8 @@ public class PlayerCharacterController : MonoBehaviour
     [SerializeField] private float deceleration = 12f;
     [SerializeField] private PlayerForm currentForm = PlayerForm.Skeleton;
 
-    [HideInInspector]
-    public PlayerInputProvider playerInput;
-    [HideInInspector]
-    public bool movementLocked = false;
+    [HideInInspector] public PlayerInputProvider playerInput;
+    [HideInInspector] public bool movementLocked = false;
 
     private CharacterController controller;
     private float currentSpeed;
