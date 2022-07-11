@@ -12,11 +12,6 @@ public class PlayerCharacterController : MonoBehaviour
     [SerializeField] private float deceleration = 12f;
     [SerializeField] private PlayerForm currentForm = PlayerForm.Skeleton;
 
-    [Header("Player GFX")]
-    [SerializeField] private GameObject ghostGFX;
-    [SerializeField] private GameObject skeletonGFX;
-    [SerializeField] private GameObject humanGFX;
-
     [HideInInspector]
     public PlayerInputProvider playerInput;
     [HideInInspector]
@@ -25,11 +20,22 @@ public class PlayerCharacterController : MonoBehaviour
     private CharacterController controller;
     private float currentSpeed;
     private Vector3 moveDirection;
+
+    [Header ("Player Dodge")]
+    [SerializeField] private float dodgeTimerLength = 0.05f;
+    [SerializeField] private float dodgeMoveLockLength = 0.15f;
+    [SerializeField] private float dodgeCooldownLength = 0.15f;
+    [SerializeField] private float dodgeDeceleration = 15f;
+
     private bool isDodging = false;
     private float dodgeTimer = 0f;
-    private readonly float dodgeLength = .05f;
-    private float dodgeCooldown = 0f;
-    private readonly float dodgeCooldownLength = .3f;
+
+    [Header("Player GFX")]
+    [SerializeField] private GameObject ghostGFX;
+    [SerializeField] private GameObject skeletonGFX;
+    [SerializeField] private GameObject humanGFX;
+
+
 
     private void Awake()
     {
@@ -60,6 +66,8 @@ public class PlayerCharacterController : MonoBehaviour
         {
             currentSpeed = 0f;
         }
+
+        RunCooldowns();
     }
 
     //calculate move direction and speed
@@ -67,19 +75,8 @@ public class PlayerCharacterController : MonoBehaviour
     {
         float targetSpeed = 0f;
 
-        //resume dodge cooldown and reset ability to dodge
-        if (dodgeCooldown > 0f)
-        {
-            dodgeCooldown -= Time.deltaTime;
-
-            if (dodgeCooldown <= 0f)
-            {
-                isDodging = false;
-            }
-        }
-
-        //decelerate faster if dodging
-        if (isDodging == false)
+        //normal movement
+        if (dodgeTimer <= 0)
         {
             if (playerInput.moveInput != Vector2.zero)
             {
@@ -92,16 +89,17 @@ public class PlayerCharacterController : MonoBehaviour
             {
                 currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
             }
-            else if (currentSpeed > targetSpeed)
+            else
             {
                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, deceleration * Time.deltaTime);
             }
         }
+        //dodge Move
         else
         {
-            float dodgeDecel = 15f;
-            currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, dodgeDecel * Time.deltaTime);
+            currentSpeed = Mathf.Lerp(currentSpeed, 0f, dodgeDeceleration * Time.deltaTime);
         }
+
         transform.forward = moveDirection;
     }
 
@@ -109,11 +107,11 @@ public class PlayerCharacterController : MonoBehaviour
     //takes in the buttons float value 0 = release, 1 = press
     public void Dodge(float buttonValue)
     {
-        if (isDodging == false && buttonValue == 1f)
+        if (dodgeTimer <= 0f && buttonValue == 1f)
         {
             movementLocked = true;
             isDodging = true;
-            dodgeTimer = dodgeLength;
+            dodgeTimer = dodgeTimerLength + dodgeMoveLockLength + dodgeCooldownLength;
         }
     }
 
@@ -123,37 +121,17 @@ public class PlayerCharacterController : MonoBehaviour
         float targetSpeed = 0f;
         float dodgeMultiplier = 20f;
 
-        dodgeTimer -= Time.deltaTime;
-        if (dodgeCooldown > 0f)
-        {
-            dodgeCooldown -= Time.deltaTime;
-            
-            //resume movement capabilities at cooldown half point
-            if (dodgeCooldown <= dodgeCooldownLength/2)
-            {
-                movementLocked = false;
-            }
-        }
-
-        //once dodge timer expires, set cooldown
-        if (dodgeTimer <= 0f && dodgeCooldown <= 0f)
-        {
-            //movementLocked = false;
-            //isDodging = false;
-            dodgeCooldown = dodgeCooldownLength;
-        }
+        targetSpeed = CalculateFormSpeed();
 
         //set dodge speed, return to normal speed if cooldown is active
-        if (dodgeCooldown <= 0f)
+        if (dodgeTimer > dodgeCooldownLength + dodgeMoveLockLength)
         {
-            targetSpeed = CalculateFormSpeed() * dodgeMultiplier;
-        } else
-        {
-            targetSpeed = CalculateFormSpeed();
+            targetSpeed *= dodgeMultiplier;
         }
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
 
+        //Catch Edge Case: Player Hasn't Moved
         if (moveDirection == Vector3.zero)
         {
             transform.forward = moveDirection;
@@ -182,7 +160,7 @@ public class PlayerCharacterController : MonoBehaviour
     }
 
     //changes player form negatively
-    public void TakeHit()
+    public void LoseHumanity()
     {
         if(currentForm == PlayerForm.Dead)
         {
@@ -235,5 +213,28 @@ public class PlayerCharacterController : MonoBehaviour
         Ghost,
         Skeleton,
         Human
+    }
+
+    //Runs dodge cooldown
+    private void DodgeCooldown()
+    {
+        if(dodgeTimer <= 0f)
+        {
+            return;
+        }
+
+        dodgeTimer -= Time.deltaTime;
+
+        //resume movement capabilities at end of cooldown
+        if (dodgeTimer <= dodgeCooldownLength)
+        {
+            movementLocked = false;
+            isDodging = false;
+        }
+    }
+
+    private void RunCooldowns()
+    {
+        DodgeCooldown();
     }
 }
