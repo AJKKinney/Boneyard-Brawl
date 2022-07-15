@@ -54,7 +54,7 @@ public class PlayerCharacterController : MonoBehaviour
 
             controller.Move(moveDirection * currentSpeed * Time.deltaTime);
         }
-        else if (isDodging == true)
+        else if (dodgeTimer > 0f)
         {
             CalculateDodge();
 
