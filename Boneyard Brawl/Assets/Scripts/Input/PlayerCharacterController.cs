@@ -17,7 +17,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     private CharacterController controller;
     private float currentSpeed;
-    private Vector3 moveDirection;
+    private Vector3 moveDirection = Vector3.forward;
 
     [Header ("Player Dodge")]
     [SerializeField] private float dodgeTimerLength = 0.05f;
@@ -131,12 +131,6 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
-
-        //Catch Edge Case: Player Hasn't Moved
-        if (moveDirection == Vector3.zero)
-        {
-            transform.forward = moveDirection;
-        }
     }
 
 
