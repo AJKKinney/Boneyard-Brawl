@@ -9,10 +9,10 @@ public class WeaponSpawn : MonoBehaviour
     
     [SerializeField] private GameObject coffin;
 
-    private bool spawnTimerSet = true;
+    //private bool spawnTimerSet = true;
     private float spawnTimer;
 
-    private readonly float spawnTimerReset = 10f;
+    private readonly float spawnTimerReset = 20f;
 
     // Start is called before the first frame update
     void Start()
@@ -36,28 +36,23 @@ public class WeaponSpawn : MonoBehaviour
         //Reset timer
         if (spawnTimer <= 0f)
         {
-            if (spawnTimerSet == true)
-            {
-                SpawnWeapon();
-            }
+            SpawnWeapon();
 
-            spawnTimerSet = !spawnTimerSet;
+            //spawnTimerSet = !spawnTimerSet;
             spawnTimer = spawnTimerReset;
         }
     }
 
     private void SpawnWeapon()
     {
-        if (spawnTimerSet == true)
-        {
-            GameObject currentSpawn;
-            int index;
+        GameObject currentSpawn;
+        GameObject newCoffin;
+        int index;
 
-            index = Random.Range(0, spawnerList.Count);
-            currentSpawn = spawnerList[index];
-            GameObject newCoffin = Instantiate(coffin, currentSpawn.transform.position, currentSpawn.transform.rotation);
-            newCoffin.GetComponent<CoffinBreak>().weaponMaster = this;
-            spawnerList.RemoveAt(index);
-        }
+        index = Random.Range(0, spawnerList.Count);
+        currentSpawn = spawnerList[index];
+        newCoffin = Instantiate(coffin, currentSpawn.transform.position, currentSpawn.transform.rotation);
+        newCoffin.GetComponent<CoffinBreak>().weaponMaster = this;
+        spawnerList.RemoveAt(index);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponDatabase : MonoBehaviour
+public class WeaponData : MonoBehaviour
 {
     public string weaponName;
     public float weaponDamage;
@@ -17,7 +17,7 @@ public class WeaponDatabase : MonoBehaviour
     }
 }
 
-/*public class Sword : WeaponDatabase
+/*public class Sword : WeaponData
 {
     internal override void attack()
     {
