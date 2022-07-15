@@ -8,8 +8,8 @@ public class CoffinBreak : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //destroy coffin and spawn random weapon
-        if (other.gameObject.tag == "Player")
+        //destroy coffin and spawn random weapon upon colliding with damage
+        if (other.gameObject.tag.Equals("Player"))
         {
             int chosenWeapon = Random.Range(0, weaponMaster.WeaponTypes.Length);
             Instantiate(weaponMaster.WeaponTypes[chosenWeapon], transform.position, transform.rotation);
