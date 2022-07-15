@@ -55,7 +55,8 @@ public class WeaponSpawn : MonoBehaviour
 
             index = Random.Range(0, spawnerList.Count);
             currentSpawn = spawnerList[index];
-            Instantiate(coffin, currentSpawn.transform.position, currentSpawn.transform.rotation);
+            GameObject newCoffin = Instantiate(coffin, currentSpawn.transform.position, currentSpawn.transform.rotation);
+            newCoffin.GetComponent<CoffinBreak>().weaponMaster = this;
             spawnerList.RemoveAt(index);
         }
     }
