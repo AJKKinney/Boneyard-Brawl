@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 6545394942022434605}
   - component: {fileID: 9021023744007752679}
   - component: {fileID: 7705809515686451041}
+  - component: {fileID: 4404787117808836864}
   m_Layer: 0
   m_Name: Spear
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,3 +104,15 @@ MonoBehaviour:
   weaponStartupTime: 0.2
   weaponActiveTime: 0.1
   weaponRecoveryTime: 0.3
+--- !u!114 &4404787117808836864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363914515913501234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb45406956c2c4428a21f17c8006ae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

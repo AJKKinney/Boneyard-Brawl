@@ -33,9 +33,9 @@ public class PlayerCharacterController : MonoBehaviour
     [SerializeField] private GameObject skeletonGFX;
     [SerializeField] private GameObject humanGFX;
 
-
     private void Awake()
     {
+        //initialize
         controller = GetComponent<CharacterController>();
     }
 

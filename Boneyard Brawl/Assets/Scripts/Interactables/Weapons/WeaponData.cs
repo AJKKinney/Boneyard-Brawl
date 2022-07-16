@@ -9,7 +9,7 @@ public class WeaponData : MonoBehaviour
     public float weaponStartupTime;
     public float weaponActiveTime;
     public float weaponRecoveryTime;
-
+     
     //establish base attack function
     virtual internal void attack()
     {

@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 3365929646293363668}
   - component: {fileID: 671837235088547614}
   - component: {fileID: 2203190156368266140}
+  - component: {fileID: -1840895925116274089}
   m_Layer: 0
   m_Name: Sword
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,3 +106,15 @@ MonoBehaviour:
   weaponStartupTime: 0.3
   weaponActiveTime: 0.1
   weaponRecoveryTime: 0.5
+--- !u!114 &-1840895925116274089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320157325582597835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb45406956c2c4428a21f17c8006ae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

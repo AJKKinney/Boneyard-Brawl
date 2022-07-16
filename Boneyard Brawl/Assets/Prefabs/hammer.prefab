@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 3970246100425846158}
   - component: {fileID: 1224366133475531076}
   - component: {fileID: 521369873565173190}
+  - component: {fileID: -5482432438056868815}
   m_Layer: 0
   m_Name: Hammer
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,3 +104,15 @@ MonoBehaviour:
   weaponStartupTime: 0.9
   weaponActiveTime: 0.5
   weaponRecoveryTime: 1.2
+--- !u!114 &-5482432438056868815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863898324107557009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb45406956c2c4428a21f17c8006ae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
